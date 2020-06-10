@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.custom.i18n.resources" value="app"></constant>
+    <constant name="struts.multipart.saveDir" value="/tmp"></constant>
+    
+    <package name="default" namespace="/" extends="struts-default,json-default">
+        <action name="upload" class="com.zfx.demo.action.FileAction">
+            <result>/jsp/03.jsp</result>
+            <result name="input">/jsp/error.jsp</result>
+            <!-- 配置拦截器限制上传文件类型及大小 -->
+            <interceptor-ref name="fileUpload">
+                <param name="allowedTypes">image/bmp,image/x-png,image/gif,image/jpeg</param>
+                <param name="maximumSize">2M</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+    </package>
+    
+    <package name="file" namespace="/file" extends="struts-default,json-default">
+        <action name="savePersonalInfo" class="com.zfx.demo.action.File2Action" method="savePersonalInfo">
+            <result name="success" type="json">
+               <!-- <param name="root">result</param>-->
+            </result>
+        </action>
+    </package>
+
+
+</struts>
